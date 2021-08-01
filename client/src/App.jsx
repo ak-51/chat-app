@@ -1,11 +1,13 @@
 import './App.css'
 import { io } from 'socket.io-client'
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useEffect, useState, useRef } from 'react'
 
 var socket
 const CONNECTION_PORT = "/"
 
 function App() {
+  const fieldRef = useRef()
+
   //Before Login
   const [logged, setLogged] = useState(false)
   const [room, setRoom] = useState('')
@@ -17,11 +19,12 @@ function App() {
 
   useEffect(() => {
     socket = io(CONNECTION_PORT)
-  }, [CONNECTION_PORT])
+  }, [])
 
   useEffect(() => {
     socket.on("receive_message", (data) => {
       setMessageList([...messageList, data])
+      fieldRef.current.scrollIntoView()
     })
   })
 
@@ -31,7 +34,8 @@ function App() {
     socket.emit('join_room', room)
   }
 
-  const sendMSG = () => {
+  const sendMSG = (e) => {
+    e.preventDefault()
     let messageContent = {
       room: room,
       content: {
@@ -41,6 +45,7 @@ function App() {
     }
     socket.emit("send_message", messageContent)
     setMessageList([...messageList, messageContent.content])
+    fieldRef.current.scrollIntoView()
     setMessage("")
   }
 
@@ -61,23 +66,26 @@ function App() {
         )
         :
         (
+          <form onSubmit={sendMSG}>
           <div className="chatContainer">
             <div className="messages">
               {messageList.map((val, key) => {
                 return (
-                  <div className="messageContainer" id={val.author == username ? "notyou" : "you" }>
-                    <div className="messageIndv" >
+                  <div className="messageContainer" id={val.author === username ? "you" : "notyou" }>
+                    <div className="messageIndv">
                       {val.author}: {val.message}
                     </div>
                   </div>
                 )
               })}
+              <div ref={fieldRef}></div>
             </div>
             <div className="messageInputs">
               <input type="text" placeholder="Message" value={message} onChange={(e) => setMessage(e.target.value)} />
-              <button onClick={sendMSG}>Send</button>
+              <button>Send</button>
             </div>
           </div>
+          </form>
         )}
       </div>
     </Fragment>

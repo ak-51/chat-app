@@ -16,7 +16,6 @@ const server = app.listen(port, () => {
 const io = new Server(server)
 
 io.on("connection", (socket) => {
-    console.log(socket.id)
 
     socket.on('join_room', (data) => {
         socket.join(data)
@@ -24,7 +23,6 @@ io.on("connection", (socket) => {
     })
 
     socket.on("send_message", (data) => {
-        console.log(data.content.message)
         socket.to(data.room).emit("receive_message", data.content)
     })
 

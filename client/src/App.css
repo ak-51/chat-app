@@ -3,6 +3,10 @@ body {
     margin: 0;
 }
 
+::-webkit-scrollbar {
+    display: none;
+}
+
 .App {
     display: grid;
     place-items: center;
@@ -116,15 +120,15 @@ body {
   width: calc(100% - 30px);
 }
 
-#you {
+#notyou {
     justify-content: flex-start;
 }
 
-#notyou {
+#you {
     justify-content: flex-end;
 }
 
-#notyou .messageIndv {
+#you .messageIndv {
     background-color: #5ff064;
     color: black;
 }
