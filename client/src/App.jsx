@@ -65,8 +65,10 @@ function App() {
             <div className="messages">
               {messageList.map((val, key) => {
                 return (
-                  <div className="messageIndv" id={val.author == username ? "you" : "notyou" }>
-                    {val.author}: {val.message}
+                  <div className="messageContainer" id={val.author == username ? "notyou" : "you" }>
+                    <div className="messageIndv" >
+                      {val.author}: {val.message}
+                    </div>
                   </div>
                 )
               })}
