@@ -34,7 +34,7 @@ function App() {
     socket.emit('join_room', room)
   }
 
-  const sendMSG = (e) => {
+  const sendMSG = async(e) => {
     e.preventDefault()
     let messageContent = {
       room: room,
@@ -43,8 +43,8 @@ function App() {
         message: message
       }
     }
-    socket.emit("send_message", messageContent)
-    setMessageList([...messageList, messageContent.content])
+    await socket.emit("send_message", messageContent)
+    await setMessageList([...messageList, messageContent.content])
     fieldRef.current.scrollIntoView()
     setMessage("")
   }
@@ -66,28 +66,32 @@ function App() {
         )
         :
         (
-          <form onSubmit={sendMSG}>
-          <div className="chatContainer">
-            <div className="messages">
-              {messageList.map((val, key) => {
-                return (
-                  <div className="messageContainer" id={val.author === username ? "you" : "notyou" }>
-                    <div className="messageIndv">
-                      {val.author}: {val.message}
+          <Fragment>
+            <div className="room-title">{room}</div>
+            <form onSubmit={sendMSG}>
+            <div className="chatContainer">
+              <div className="messages">
+                {messageList.map((val, key) => {
+                  return (
+                    <div className="messageContainer" id={val.author === username ? "you" : "notyou" }>
+                      <div className="messageIndv">
+                        {val.author}: {val.message}
+                      </div>
                     </div>
-                  </div>
-                )
-              })}
-              <div ref={fieldRef}></div>
+                  )
+                })}
+                <div ref={fieldRef}></div>
+              </div>
+              <div className="messageInputs">
+                <input type="text" placeholder="Message" value={message} onChange={(e) => setMessage(e.target.value)} />
+                <button>Send</button>
+              </div>
             </div>
-            <div className="messageInputs">
-              <input type="text" placeholder="Message" value={message} onChange={(e) => setMessage(e.target.value)} />
-              <button>Send</button>
-            </div>
-          </div>
-          </form>
+            </form>
+          </Fragment>
         )}
       </div>
+      
     </Fragment>
   )
 }
