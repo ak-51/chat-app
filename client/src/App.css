@@ -62,6 +62,8 @@ body {
 .chatContainer .messages {
     flex: 80%;
     width: 100%;
+    padding: 20px;
+    padding-top: 0px;
 }
 
 .chatContainer .messageInputs {
@@ -75,9 +77,46 @@ body {
     flex: 80%;
     height: calc(100% - 5px);
     border: none;
+    border-top: 5px solid #0091ff;
+    font-size: 18px;
+}
+
+.chatContainer .messageInputs input:focus {
+    outline: none;
 }
 
 .chatContainer .messageInputs button {
     flex: 20%;
     height: 100%;
+    border: none;
+    border-top: 5px solid #0091ff;
+    border-left: 5px solid #0091ff;
+    background-color: #0091ff;
+    color: white;
+    font-size: 18px;
+}
+
+.messages {
+    display: flex;
+}
+
+.messageIndv {
+    width: 200px;
+    height: 60px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;    
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-top: 20px;
+}
+
+#you {
+    justify-content: flex-end;
+    background-color: yellowgreen;
+}
+
+#notyou {
+    justify-content: flex-start;
+    background-color: #0091ff;
 }
