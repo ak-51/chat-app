@@ -1,6 +1,7 @@
 import './App.css'
 import { io } from 'socket.io-client'
 import { Fragment, useEffect, useState, useRef } from 'react'
+import {BrowserRouter, Switch, Route} from 'react-router-dom'
 
 var socket
 const CONNECTION_PORT = "/"
